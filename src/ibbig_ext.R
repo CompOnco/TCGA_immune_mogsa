@@ -90,6 +90,10 @@ ensemblClusters<-function(xx, savetmpfiles=FALSE, outpath="\tmp", outfile="ibbig
 
 mergeClusters<- function(x, i, drop=FALSE) {
   # x is an ibbig object
+<<<<<<< HEAD
+  # Merge 2 cluster eg M1 and M2 are similar and wish to make M1_M2
+=======
+>>>>>>> origin/master
   ind<-1:x@Number
   i= paste("M", i)
   i=which(names(x@Clusterscores)%in%i)
