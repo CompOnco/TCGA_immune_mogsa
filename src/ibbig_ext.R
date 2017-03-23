@@ -90,10 +90,8 @@ ensemblClusters<-function(xx, savetmpfiles=FALSE, outpath="\tmp", outfile="ibbig
 
 mergeClusters<- function(x, i, drop=FALSE) {
   # x is an ibbig object
-<<<<<<< HEAD
   # Merge 2 cluster eg M1 and M2 are similar and wish to make M1_M2
-=======
->>>>>>> origin/master
+
   ind<-1:x@Number
   i= paste("M", i)
   i=which(names(x@Clusterscores)%in%i)
@@ -124,4 +122,17 @@ mergeClusters<- function(x, i, drop=FALSE) {
     rownames(x@info$NumberxScore)[rownames(x@info$NumberxScore)=='rc'] = nlab
   }
 
+}
+
+
+Heatmap_ibbig<-function(x){
+  rn2<-do.call(order, c(decreasing = TRUE, data.frame(x@RowxNumber)))
+  nc2<-do.call(order, c(decreasing = TRUE, data.frame(t(x@NumberxCol))))
+  yy<-apply(x@RowxNumber, 1, function(y) (apply(x@NumberxCol,2, function(i) {z<-(i & y); ifelse(any(z), which(z), 0) })))
+
+  xRe<-yy[nc2,rn2]
+  colors=structure(c("white",c(RColorBrewer:::brewer.pal(9, "Set1"),brewer.pal(8, "Set2"),RColorBrewer:::brewer.pal(12, "Set3"),RColorBrewer:::brewer.pal(8, "Dark2"),RColorBrewer:::brewer.pal(8, "Accent"))[1:x@Number]), names =as.character(0:x@Number))
+  print("Creating ComplexHeatmap::Heatmap")
+  ha<- ComplexHeatmap::Heatmap(xRe, cluster_rows = FALSE, cluster_columns = FALSE, col=colors,show_row_names = TRUE, show_column_names = FALSE, row_names_side = "left", row_names_gp = gpar(fontsize = 4))
+  return(ha)
 }
